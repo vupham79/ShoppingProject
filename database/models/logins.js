@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING
     },
     username: DataTypes.STRING,
-    password: DataTypes.STRING
+    password: DataTypes.STRING,
   });
   logins.associate = function(models) {
     logins.belongsTo(models.customers);

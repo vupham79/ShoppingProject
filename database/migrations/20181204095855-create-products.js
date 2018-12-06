@@ -7,13 +7,13 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.STRING
       },
-      // cat_id: {
-      //   type: Sequelize.STRING,
-      //   references: {
-      //     model: 'categories',
-      //     key: 'id',
-      //   }
-      // },
+      cat_id: {
+        type: Sequelize.STRING,
+        references: {
+          model: 'categories',
+          key: 'id',
+        }
+      },
       name: {
         type: Sequelize.STRING
       },

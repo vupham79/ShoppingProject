@@ -7,20 +7,20 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.STRING
       },
-      // order_id: {
-      //   type: Sequelize.STRING,
-      //   references: {
-      //     model: 'orders',
-      //     key: 'id',
-      //   }
-      // },
-      // product_id: {
-      //   type: Sequelize.STRING,
-      //   references: {
-      //     model: 'products',
-      //     key: 'id',
-      //   }
-      // },
+      order_id: {
+        type: Sequelize.STRING,
+        references: {
+          model: 'orders',
+          key: 'id',
+        }
+      },
+      product_id: {
+        type: Sequelize.STRING,
+        references: {
+          model: 'products',
+          key: 'id',
+        }
+      },
       quantity: {
         type: Sequelize.INTEGER
       },

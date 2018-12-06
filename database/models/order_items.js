@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
     quantity: DataTypes.INTEGER
   });
   order_items.associate = function(models) {
-    order_items.belongsTo(models.orders);
-    order_items.belongsTo(models.products);
+    // order_items.belongsTo(models.orders);
+    // order_items.belongsTo(models.products);
   };
   return order_items;
 };

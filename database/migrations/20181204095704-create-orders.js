@@ -7,29 +7,24 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.STRING
       },
-      // customer_id: {
-      //   type: Sequelize.STRING,
-      //   references: {
-      //     model: 'customers',
-      //     key: 'id'
-      //   },
-      //   allowNull: false
-      // },
-      // registered: {
-      //   type: Sequelize.BOOLEAN,
-      //   references: {
-      //     model: 'customers',
-      //     key: 'registered',
-      //   },
-      //   allowNull: false,
-      // },
-      // delivery_add_id: {
-      //   type: Sequelize.STRING,
-      //   references: {
-      //     model: 'delivery_address',
-      //     key: 'id',
-      //   }
-      // },
+      customer_id: {
+        type: Sequelize.STRING,
+        references: {
+          model: 'customers',
+          key: 'id'
+        },
+        allowNull: false
+      },
+      registered: {
+        type: Sequelize.BOOLEAN,
+      },
+      delivery_add_id: {
+        type: Sequelize.STRING,
+        references: {
+          model: 'delivery_addresses',
+          key: 'id',
+        }
+      },
       payment_type: {
         type: Sequelize.STRING
       },
