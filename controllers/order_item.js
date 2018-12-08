@@ -4,9 +4,23 @@ export async function getAllOrderItems(req, res) {
     try {
         const items = await model.order_items.findAll({
             attributes: ['id', 'order_id', 'product_id', 'quantity'],
-            where: {
-                id: req.params.id
-            }
+            // include: [{
+            //     model: model.products,
+            // },
+            // {
+            //     where: {
+            //         order_id: req.params.order_id
+            //     }
+            // }],
+            include: [{
+                model: model.products,
+                as: 'products',
+                required: false
+            }, {
+                where: {
+                    order_id: req.params.order_id
+                }
+            }]
         })
         if (items) {
             return res.status(200).send(json(items));
