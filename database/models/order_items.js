@@ -9,10 +9,12 @@ module.exports = (sequelize, DataTypes) => {
     // order_id: DataTypes.STRING,
     // product_id: DataTypes.STRING,
     quantity: DataTypes.INTEGER
+  }, {
+    timestamp: true,
   });
   order_items.associate = function(models) {
-    // order_items.belongsTo(models.orders);
-    // order_items.belongsTo(models.products);
+    order_items.belongsTo(models.orders);
+    order_items.belongsTo(models.products);
   };
   return order_items;
 };

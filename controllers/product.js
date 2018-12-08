@@ -6,12 +6,12 @@ export async function getAllProducts(req, res) {
             attributes: ['id', 'cat_id', 'name', 'description', 'image', 'price'],
         })
         if (products) {
-            return res.json(products);
+            return res.status(200).json(products);
         } else {
-            return res.json({ message: 'No products existing!' });
+            return res.status(400).json({ message: 'No products existing!' });
         }
     } catch (error) {
-        return res.json({ message: 'Error', error: error });
+        return res.status(400).json({ message: 'Error', error: error });
     }
 }
 
@@ -21,12 +21,12 @@ export async function createProduct(req, res) {
             ...req.body,
         });
         if (product) {
-            return res.json(product);
+            return res.status(200).json(product);
         } else {
-            return res.json({ message: `Create product ${req.body.id} failed!` });
+            return res.status(400).json({ message: `Create product ${req.body.id} failed!` });
         }
     } catch (error) {
-        return res.json({ message: 'Error', error: error });
+        return res.status(400).json({ message: 'Error', error: error });
     }
 }
 
@@ -46,12 +46,12 @@ export async function updateProduct(req, res) {
             }
         );
         if (product) {
-            return res.json(product);
+            return res.status(200).json(product);
         } else {
-            return res.json({ message: `Create product ${req.body.id} failed!` });
+            return res.status(400).json({ message: `Update product ${req.body.id} failed!` });
         }
     } catch (error) {
-        return res.json({ message: 'Error', error: error });
+        return res.status(400).json({ message: 'Error', error: error });
     }
 }
 
@@ -63,11 +63,11 @@ export async function deleteProduct(req, res) {
             }
         });
         if (product) {
-            return res.json(product);
+            return res.status(200).json(product);
         } else {
-            return res.json({ message: `Delete product ${req.params.id} failed!` })
+            return res.status(400).json({ message: `Delete product ${req.params.id} failed!` })
         }
     } catch (error) {
-        return res.json({ message: 'Error', error: error });
+        return res.status(400).json({ message: 'Error', error: error });
     }
 }

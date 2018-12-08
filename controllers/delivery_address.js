@@ -6,12 +6,12 @@ export async function getAllDeliveryAddresses(req, res) {
             attributes: ['id', 'forename', 'surname', 'add1', 'add2', 'add3', 'postcode', 'phone', 'email'],
         })
         if (deliveryAddresses) {
-            return res.json(deliveryAddresses);
+            return res.status(200).json(deliveryAddresses);
         } else {
-            return res.json({ message: 'No delivery address existing!' });
+            return res.status(400).json({ message: 'No delivery address existing!' });
         }
     } catch (error) {
-        return res.json({ message: 'Error', error: error });
+        return res.status(400).json({ message: 'Error', error: error.message });
     }
 }
 
@@ -21,12 +21,12 @@ export async function createDeliveryAddress(req, res) {
             ...req.body
         })
         if (deliveryAddress) {
-            return res.json(deliveryAddress);
+            return res.status(200).json(deliveryAddress);
         } else {
-            return res.json({ message: `Create delivery address '${req.body.id}' failed!` });
+            return res.status(400).json({ message: `Create delivery address '${req.body.id}' failed!` });
         }
     } catch (error) {
-        return res.json({ message: 'Error', error: error });
+        return res.status(400).json({ message: 'Error', error: error.message });
     }
 }
 
@@ -50,12 +50,12 @@ export async function updateDeliveryAddress(req, res) {
             }
         )
         if (deliveryAddress) {
-            return res.json(deliveryAddress);
+            return res.status(200).json(deliveryAddress);
         } else {
-            return res.json({ message: `Update delivery address ${req.params.id} failed!` });
+            return res.status(400).json({ message: `Update delivery address ${req.params.id} failed!` });
         }
     } catch (error) {
-        return res.json({ message: 'Error', error: error });
+        return res.status(400).json({ message: 'Error', error: error.message });
     }
 }
 
@@ -67,11 +67,11 @@ export async function deleteDeliveryAddress(req, res) {
             }
         })
         if (deliveryAddress) {
-            return res.json(deliveryAddress);
+            return res.status(200).json(deliveryAddress);
         } else {
-            return res.json({ message: `Delete delivery address ${req.params.id} failed!` });
+            return res.status(400).json({ message: `Delete delivery address ${req.params.id} failed!` });
         }
     } catch (error) {
-        return res.json({ message: 'Error', error: error });
+        return res.status(400).json({ message: 'Error', error: error.message });
     }
 }

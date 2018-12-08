@@ -1,10 +1,13 @@
 import express from 'express';
-import route from './routes/customer';
-import middlewares from './config/middlewares';
+import middlewaresConfig from './config/middlewares';
+import apiRoutes from './routes';
 
 const app = express();
-middlewares(app);
-app.use('/customer', route);
-app.listen(8000, () => {
+const PORT = process.env.PORT || 8000;
+
+middlewaresConfig(app);
+apiRoutes(app);
+
+app.listen(PORT, () => {
     console.log("   Server is running on port 8000 😢😢😢😢");
 })

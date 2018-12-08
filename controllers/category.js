@@ -6,12 +6,12 @@ export async function getAllCategories(req, res) {
             attributes: ['id', 'name', 'description', 'image'],
         })
         if (categories) {
-            return res.json(categories);
+            return res.status(200).json(categories);
         } else {
-            return res.json({ message: 'No category existing!' });
+            return res.status(400).json({ message: 'No category existing!' });
         }
     } catch (error) {
-        return res.json({ message: 'Error', error: error });
+        return res.status(400).json({ message: 'Error', error: error.message });
     }
 }
 
@@ -21,12 +21,12 @@ export async function createCategory(req, res) {
             ...req.body,
         });
         if (category) {
-            return res.json(category);
+            return res.status(200).json(category);
         } else {
-            return res.json({ message: `Create category ${req.body.id} failed!` });
+            return res.status(400).json({ message: `Create category ${req.body.id} failed!` });
         }
     } catch (error) {
-        return res.json({ message: 'Error', error: error });
+        return res.status(400).json({ message: 'Error', error: error.message });
     }
 }
 
@@ -44,28 +44,33 @@ export async function updateCategory(req, res) {
             }
         );
         if (category) {
-            return res.json(category);
+            return res.status(200).json(category);
         } else {
-            return res.json({ message: `Create category ${req.body.id} failed!` });
+            return res.status(400).json({ message: `Update category ${req.body.id} failed!` });
         }
     } catch (error) {
-        return res.json({ message: 'Error', error: error });
+        return res.status(400).json({ message: 'Error', error: error.message });
     }
 }
 
 export async function deleteCategory(req, res) {
     try {
+        const products = await model.products.destroy({
+            where: {
+                cat_id: req.params.cat_id,
+            }
+        })
         const category = await model.categories.destroy({
             where: {
-                id: req.params.id,
+                id: req.params.cat_id,
             }
         });
-        if (category) {
-            return res.json(category);
+        if (products && category) {
+            return res.status(200).json(category);
         } else {
-            return res.json({ message: `Delete category ${req.params.id} failed!` })
+            return res.status(400).json({ message: `Delete category ${req.params.id} failed!` });
         }
     } catch (error) {
-        return res.json({ message: 'Error', error: error });
+        return res.status(400).json({ message: 'Error', error: error.message });
     }
 }

@@ -14,6 +14,8 @@ module.exports = (sequelize, DataTypes) => {
     postcode: DataTypes.STRING,
     phone: DataTypes.STRING,
     email: DataTypes.STRING
+  }, {
+    timestamp: true,
   });
   delivery_addresses.associate = function(models) {
     delivery_addresses.hasMany(models.orders, {

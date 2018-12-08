@@ -8,6 +8,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     username: DataTypes.STRING,
     password: DataTypes.STRING,
+  }, {
+    timestamp: true,
   });
   logins.associate = function(models) {
     logins.belongsTo(models.customers);

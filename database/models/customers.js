@@ -14,6 +14,8 @@ module.exports = (sequelize, DataTypes) => {
     phone: DataTypes.STRING,
     email: DataTypes.STRING,
     registered: DataTypes.BOOLEAN,
+  }, {
+    timestamp: true,
   });
   customers.associate = (models) => {
     customers.hasMany(models.orders, {

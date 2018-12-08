@@ -10,9 +10,11 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.STRING,
     image: DataTypes.STRING,
     price: DataTypes.FLOAT
+  }, {
+    timestamp: true,
   });
   products.associate = function(models) {
-    products.hasMany(models.order_items, {
+    products.hasOne(models.order_items, {
       foreignKey: 'product_id',
     });
     products.belongsTo(models.categories, {

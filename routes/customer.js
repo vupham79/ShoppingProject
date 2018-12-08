@@ -1,4 +1,3 @@
-// import * as CustomerController from './../controllers/customer';
 import * as CustomerController from './../controllers/customer';
 import { Router } from 'express';
 

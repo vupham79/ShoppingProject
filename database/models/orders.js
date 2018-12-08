@@ -13,7 +13,12 @@ module.exports = (sequelize, DataTypes) => {
     date: DataTypes.DATE,
     status: DataTypes.STRING,
     session: DataTypes.STRING,
-    total: DataTypes.FLOAT
+    total: {
+      type: DataTypes.FLOAT,
+      defaultValue: 0,
+    }
+  }, {
+    timestamp: true,
   });
   orders.associate = function(models) {
     orders.hasMany(models.order_items, {

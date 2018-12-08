@@ -4,12 +4,12 @@ export async function getAllCustomers(req, res) {
     try {
         const customers = await model.customers.findAll();
         if (customers) {
-            return res.json(customers);
+            return res.status(200).json(customers);
         } else {
-            return res.json({ message: 'No customers existing!' });
+            return res.status(400).json({ message: 'No customers existing!' });
         }
     } catch (error) {
-        return res.json({ error: error.message });
+        return res.status(400).json({ error: error.message });
     }
 }
 
@@ -19,12 +19,12 @@ export async function createCustomer(req, res) {
             ...req.body
         })
         if (customer) {
-            return res.json(customer);
+            return res.status(200).json(customer);
         } else {
-            return res.json({ message: 'Create customer failed!' });
+            return res.status(400).json({ message: 'Create customer failed!' });
         }
     } catch (error) {
-        return res.json({ message: 'Error', error: error.message });
+        return res.status(400).json({ message: 'Error', error: error.message });
     }
 }
 
@@ -49,12 +49,12 @@ export async function updateCustomer(req, res) {
             }
         )
         if (customer) {
-            return res.json(customer);
+            return res.status(200).json(customer);
         } else {
-            return res.json({ message: 'Update customer failed!' });
+            return res.status(400).json({ message: 'Update customer failed!' });
         }
     } catch (error) {
-        return res.json({ message: 'Error', error: error.message });
+        return res.status(400).json({ message: 'Error', error: error.message });
     }
 }
 
@@ -66,11 +66,11 @@ export async function deleteCustomer(req, res) {
             }
         })
         if (customer) {
-            return res.json(customer);
+            return res.status(200).json(customer);
         } else {
-            return res.json({ message: 'Delete customer failed!' });
+            return res.status(400).json({ message: 'Delete customer failed!' });
         }
     } catch (error) {
-        return res.json({ message: 'Error', error: error.message });
+        return res.status(400).json({ message: 'Error', error: error.message });
     }
 }
