@@ -4,17 +4,32 @@ module.exports = (sequelize, DataTypes) => {
     id: {
       allowNull: false,
       primaryKey: true,
-      type: DataTypes.STRING
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDv1
     },
-    // order_id: DataTypes.STRING,
-    // product_id: DataTypes.STRING,
-    quantity: DataTypes.INTEGER
+    order_id: {
+      type: DataTypes.UUID,
+    },
+    product_id: {
+      type: DataTypes.UUID,
+    },
+    quantity: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    }
   }, {
     timestamp: true,
+    paranoid: true,
   });
   order_items.associate = function(models) {
-    order_items.belongsTo(models.orders);
-    order_items.belongsTo(models.products);
+    order_items.belongsTo(models.orders, {
+      foreignKey: 'order_id',
+      as: 'item_order'
+    });
+    order_items.belongsTo(models.products, {
+      foreignKey: 'product_id',
+      as: 'item_product'
+    });
   };
   return order_items;
 };

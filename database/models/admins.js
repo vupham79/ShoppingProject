@@ -3,12 +3,19 @@ module.exports = (sequelize, DataTypes) => {
   const admins = sequelize.define('admins', {
     id: {
       primaryKey: true,
-      type: DataTypes.STRING
+      allowNull: false,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV1
     },
-    username: DataTypes.STRING,
-    password: DataTypes.STRING,
+    username: {
+      type: DataTypes.STRING(32),
+    },
+    password: {
+      type: DataTypes.STRING(50),
+    },
   }, {
     timestamp: true,
+    paranoid: true,
   });
   return admins;
 };

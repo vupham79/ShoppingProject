@@ -1,4 +1,5 @@
 import model from './../database/models';
+import db from './../database/models';
 
 export async function getAllCategories(req, res) {
     try {
@@ -15,11 +16,35 @@ export async function getAllCategories(req, res) {
     }
 }
 
+export async function getCategory(req, res) {
+    try {
+        const category = await model.categories.findOne(
+            {
+                attributes: ['id', 'name', 'description', 'image'],
+                where: {
+                    id: req.params.id,
+                }
+            }
+        )
+        if (category) {
+            return res.status(200).json(category);
+        } else {
+            return res.status(400).json({ message: `Category ${req.params.id} not existing!` });
+        }
+    } catch (error) {
+        return res.status(400).json({ message: 'Error', error: error.message });
+    }
+}
+
 export async function createCategory(req, res) {
     try {
-        const category = await model.categories.create({
-            ...req.body,
-        });
+        const category = await model.categories.create(
+            {
+                name: req.body.name,
+                description: req.body.description,
+                image: req.body.image,
+            }
+        );
         if (category) {
             return res.status(200).json(category);
         } else {
@@ -55,21 +80,10 @@ export async function updateCategory(req, res) {
 
 export async function deleteCategory(req, res) {
     try {
-        const products = await model.products.destroy({
-            where: {
-                cat_id: req.params.cat_id,
-            }
-        })
-        const category = await model.categories.destroy({
-            where: {
-                id: req.params.cat_id,
-            }
-        });
-        if (products && category) {
-            return res.status(200).json(category);
-        } else {
-            return res.status(400).json({ message: `Delete category ${req.params.id} failed!` });
-        }
+        let t1 = db.sequelize.transaction();
+        await model.products.destroy({ where: { cat_id: req.params.id } }, { transaction: t1 });
+        await model.categories.destroy({ where: { id: req.params.id } }, { transaction: t1});
+        return res.status(200).json({ message: `Delete category ${req.params.id} successfully!`});
     } catch (error) {
         return res.status(400).json({ message: 'Error', error: error.message });
     }

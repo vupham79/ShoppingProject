@@ -17,9 +17,17 @@ export async function getAllOrders(req, res) {
 
 export async function createOrder(req, res) {
     try {
-        const order = await model.orders.create({
-            ...req.body,
-        });
+        const order = await model.orders.create(
+            {
+                customer_id: req.body.customer_id,
+                registered: req.body.registered,
+                delivery_add_id: req.body.delivery_add_id,
+                payment_type: req.body.payment_type,
+                date: req.body.date,
+                status: req.body.status,
+                session: req.body.session,
+            }
+        );
         if (order) {
             return res.status(200).json(order);
         } else {

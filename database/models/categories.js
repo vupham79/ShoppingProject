@@ -3,14 +3,35 @@ module.exports = (sequelize, DataTypes) => {
   const categories = sequelize.define('categories', {
     id: {
       primaryKey: true,
-      type: DataTypes.STRING
+      allowNull: false,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV1
     },
-    name: DataTypes.STRING,
-    description: DataTypes.STRING,
-    image: DataTypes.STRING
+    name: {
+      type: DataTypes.STRING(100),
+      unique: true,
+      // validate: {
+      //   notNull: true,
+      //   notEmpty: true,
+      // }
+    },
+    description: {
+      type: DataTypes.STRING,
+      defaultValue: 'No description',
+    },
+    image: {
+      type: DataTypes.STRING,
+      validate: {
+        isUrl: true,
+      }
+    }
   }, {
-    timestamp: true,
-  });
+      timestamp: true,
+      paranoid: true,
+      uniqueKeys: {
+        fields: ['name']
+      }
+    });
   categories.associate = (models) => {
     categories.hasMany(models.products, {
       foreignKey: 'cat_id',

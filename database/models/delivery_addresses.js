@@ -2,20 +2,41 @@
 module.exports = (sequelize, DataTypes) => {
   const delivery_addresses = sequelize.define('delivery_addresses', {
     id: {
-      allowNull: false,
       primaryKey: true,
-      type: DataTypes.STRING
+      allowNull: false,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV1
     },
-    forename: DataTypes.STRING,
-    surname: DataTypes.STRING,
-    add1: DataTypes.STRING,
-    add2: DataTypes.STRING,
-    add3: DataTypes.STRING,
-    postcode: DataTypes.STRING,
-    phone: DataTypes.STRING,
-    email: DataTypes.STRING
+    forename: {
+      type: DataTypes.STRING(16),
+    },
+    surname: {
+      type: DataTypes.STRING(16),
+    },
+    add1: {
+      type: DataTypes.STRING(60),
+    },
+    add2: {
+      type: DataTypes.STRING(60),
+    },
+    add3: {
+      type: DataTypes.STRING(60),
+    },
+    postcode: {
+      type: DataTypes.STRING(10),
+    },
+    phone: {
+      type: DataTypes.STRING(16),
+    },
+    email: {
+      type: DataTypes.STRING,
+      validate: {
+        isEmail: true,
+      }
+    },
   }, {
     timestamp: true,
+    paranoid: true,
   });
   delivery_addresses.associate = function(models) {
     delivery_addresses.hasMany(models.orders, {

@@ -4,37 +4,27 @@ export async function getAllOrderItems(req, res) {
     try {
         const items = await model.order_items.findAll({
             attributes: ['id', 'order_id', 'product_id', 'quantity'],
-            // include: [{
-            //     model: model.products,
-            // },
-            // {
-            //     where: {
-            //         order_id: req.params.order_id
-            //     }
-            // }],
             include: [{
                 model: model.products,
-                as: 'products',
-                required: false
-            }, {
-                where: {
-                    order_id: req.params.order_id
-                }
-            }]
+                as: 'item_product'
+            }],
+            where: {
+                order_id: req.params.order_id
+            }
         })
         if (items) {
-            return res.status(200).send(json(items));
+            return res.status(200).json(items);
         } else {
-            return res.status(400).send(json({ message: 'No items existing!' }));
+            return res.status(400).json({ message: 'No items existing!' });
         }
     } catch (error) {
-        return res.status(400).send(json({ message: 'Error', error: error }));
+        return res.status(400).json({ message: 'Error', error: error.message });
     }
 }
 
 export async function createOrderItems(req, res) {
     try {
-        const order = await model.orders.bulkCreate(req.items.map(item => {
+        const order = await model.order_items.bulkCreate(req.items.map(item => {
 
         }),
             {
@@ -49,13 +39,13 @@ export async function createOrderItems(req, res) {
             return res.json({ message: `Create order ${req.body.id} failed!` });
         }
     } catch (error) {
-        return res.status(400).send(json({ message: 'Error', error: error }));
+        return res.status(400).json({ message: 'Error', error: error.message });
     }
 }
 
-export async function updateOrder(req, res) {
+export async function updateOrdertem(req, res) {
     try {
-        const order = await model.orders.update({
+        const order = await model.order_items.update({
             customer_id: req.body.customer_id,
             registered: req.body.registered,
             delivery_add_id: req.body.delivery_add_id,
@@ -76,11 +66,11 @@ export async function updateOrder(req, res) {
             return res.json({ message: `Create order ${req.body.id} failed!` });
         }
     } catch (error) {
-        return res.json({ message: 'Error', error: error });
+        return res.json({ message: 'Error', error: error.message });
     }
 }
 
-export async function deleteOrder(req, res) {
+export async function deleteOrderItem(req, res) {
     try {
         const order = await model.orders.destroy({
             where: {
@@ -93,6 +83,6 @@ export async function deleteOrder(req, res) {
             return res.json({ message: `Delete order ${req.params.id} failed!` })
         }
     } catch (error) {
-        return res.json({ message: 'Error', error: error });
+        return res.json({ message: 'Error', error: error.message });
     }
 }

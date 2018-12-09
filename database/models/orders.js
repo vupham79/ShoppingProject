@@ -2,23 +2,71 @@
 module.exports = (sequelize, DataTypes) => {
   const orders = sequelize.define('orders', {
     id: {
-      allowNull: false,
       primaryKey: true,
-      type: DataTypes.STRING
+      allowNull: false,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV1
     },
-    // customer_id: DataTypes.STRING,
-    // registered: DataTypes.BOOLEAN,
-    // delivery_add_id: DataTypes.STRING,
-    payment_type: DataTypes.STRING,
-    date: DataTypes.DATE,
-    status: DataTypes.STRING,
-    session: DataTypes.STRING,
+    customer_id: {
+      type: DataTypes.UUID,
+      validate: {
+        notNull: true,
+        notEmpty: true,
+      }
+    },
+    registered: {
+      type: DataTypes.BOOLEAN,
+      validate: {
+        notNull: true,
+        notEmpty: true,
+      }
+    },
+    delivery_add_id: {
+      type: DataTypes.UUID,
+      validate: {
+        notNull: true,
+        notEmpty: true,
+      }
+    },
+    payment_type: {
+      type: DataTypes.STRING,
+      validate: {
+        notNull: true,
+        notEmpty: true,
+      }
+    },
+    date: {
+      type: DataTypes.DATE,
+      validate: {
+        notNull: true,
+        notEmpty: true,
+      }
+    },
+    status: {
+      type: DataTypes.STRING,
+      validate: {
+        notNull: true,
+        notEmpty: true,
+      }
+    },
+    session: {
+      type: DataTypes.STRING,
+      validate: {
+        notNull: true,
+        notEmpty: true,
+      }
+    },
     total: {
       type: DataTypes.FLOAT,
       defaultValue: 0,
+      validate: {
+        notNull: true,
+        notEmpty: true,
+      }
     }
   }, {
     timestamp: true,
+    paranoid: true,
   });
   orders.associate = function(models) {
     orders.hasMany(models.order_items, {
@@ -26,12 +74,11 @@ module.exports = (sequelize, DataTypes) => {
     });
     orders.belongsTo(models.customers, {
       foreignKey: "customer_id",
+      as: 'order_customer'
     });
-    orders.belongsTo(models.customers, {
-      foreignKey: "registered",
-    })
     orders.belongsTo(models.delivery_addresses, {
       foreignKey: "delivery_add_id",
+      as: 'order_deliveryAddress'
     });
   };
   return orders;

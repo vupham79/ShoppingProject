@@ -12,6 +12,6 @@ export async function checkLogin(req, res) {
             return 
         }
     } catch (error) {
-        return res.json({ message: 'Error', error: error });
+        return res.json({ message: 'Error', error: error.message });
     }
 }

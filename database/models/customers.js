@@ -3,19 +3,47 @@ module.exports = (sequelize, DataTypes) => {
   const customers = sequelize.define('customers', {
     id: {
       primaryKey: true,
-      type: DataTypes.STRING
+      allowNull: false,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV1
     },
-    forename: DataTypes.STRING,
-    surname: DataTypes.STRING,
-    add1: DataTypes.STRING,
-    add2: DataTypes.STRING,
-    add3: DataTypes.STRING,
-    postcode: DataTypes.STRING,
-    phone: DataTypes.STRING,
-    email: DataTypes.STRING,
-    registered: DataTypes.BOOLEAN,
+    forename: {
+      type: DataTypes.STRING(16),
+    },
+    surname: {
+      type: DataTypes.STRING(16),
+    },
+    add1: {
+      type: DataTypes.STRING(60),
+    },
+    add2: {
+      type: DataTypes.STRING(60),
+    },
+    add3: {
+      type: DataTypes.STRING(60),
+    },
+    postcode: {
+      type: DataTypes.STRING(10),
+    },
+    phone: {
+      type: DataTypes.STRING(16),
+    },
+    email: {
+      type: DataTypes.STRING,
+      validate: {
+        isEmail: true,
+      }
+    },
+    registered: {
+      type: DataTypes.BOOLEAN,
+      validate: {
+        notNull: true,
+        notEmpty: true,
+      }
+    },
   }, {
     timestamp: true,
+    paranoid: true,
   });
   customers.associate = (models) => {
     customers.hasMany(models.orders, {

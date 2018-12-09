@@ -17,9 +17,18 @@ export async function getAllDeliveryAddresses(req, res) {
 
 export async function createDeliveryAddress(req, res) {
     try {
-        const deliveryAddress = await model.delivery_addresses.create({
-            ...req.body
-        })
+        const deliveryAddress = await model.delivery_addresses.create(
+            {
+                forename: req.body.forename,
+                surname: req.body.surname,
+                add1: req.body.add1,
+                add2: req.body.add2,
+                add3: req.body.add3,
+                postcode: req.body.postcode,
+                phone: req.body.phone,
+                email: req.body.email,
+            }
+        )
         if (deliveryAddress) {
             return res.status(200).json(deliveryAddress);
         } else {

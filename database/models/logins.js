@@ -2,14 +2,20 @@
 module.exports = (sequelize, DataTypes) => {
   const logins = sequelize.define('logins', {
     id: {
-      allowNull: false,
       primaryKey: true,
-      type: DataTypes.STRING
+      allowNull: false,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV1
     },
-    username: DataTypes.STRING,
-    password: DataTypes.STRING,
+    username: {
+      type: DataTypes.STRING(16),
+    },
+    password: {
+      type: DataTypes.STRING(50),
+    }
   }, {
     timestamp: true,
+    paranoid: true,
   });
   logins.associate = function(models) {
     logins.belongsTo(models.customers);
