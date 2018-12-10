@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('products', {
+    return queryInterface.createTable("products", {
       id: {
         allowNull: false,
         primaryKey: true,
@@ -10,8 +10,8 @@ module.exports = {
       cat_id: {
         type: Sequelize.STRING,
         references: {
-          model: 'categories',
-          key: 'id',
+          model: "categories",
+          key: "id"
         }
       },
       name: {
@@ -35,11 +35,11 @@ module.exports = {
         type: Sequelize.DATE
       },
       deletedAt: {
-        type: Sequelize.DATE,
+        type: Sequelize.DATE
       }
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('products');
+    return queryInterface.dropTable("products");
   }
 };

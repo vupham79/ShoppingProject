@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('orders', {
+    return queryInterface.createTable("orders", {
       id: {
         allowNull: false,
         primaryKey: true,
@@ -10,19 +10,19 @@ module.exports = {
       customer_id: {
         type: Sequelize.STRING,
         references: {
-          model: 'customers',
-          key: 'id'
+          model: "customers",
+          key: "id"
         },
         allowNull: false
       },
       registered: {
-        type: Sequelize.BOOLEAN,
+        type: Sequelize.BOOLEAN
       },
       delivery_add_id: {
         type: Sequelize.STRING,
         references: {
-          model: 'delivery_addresses',
-          key: 'id',
+          model: "delivery_addresses",
+          key: "id"
         }
       },
       payment_type: {
@@ -49,11 +49,11 @@ module.exports = {
         type: Sequelize.DATE
       },
       deletedAt: {
-        type: Sequelize.DATE,
+        type: Sequelize.DATE
       }
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('orders');
+    return queryInterface.dropTable("orders");
   }
 };
