@@ -9,7 +9,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     name: {
       type: DataTypes.STRING,
-      unique: true,
+      unique: {
+        arg: true,
+        msg: "Product name duplicated",
+      },
       // validate: {
       //   // notNull: {
       //   //   args: true,
@@ -39,12 +42,6 @@ module.exports = (sequelize, DataTypes) => {
   }, {
       timestamp: true,
       paranoid: true,
-      index: [
-        {
-          unique: true,
-          field: ['name']
-        }
-      ]
     });
   products.associate = function (models) {
     products.hasMany(models.order_items, {

@@ -11,4 +11,5 @@ export default app => {
     app.use('/order', OrderRoutes);
     app.use('/category', CategoryRoutes);
     app.use('/product', ProductRoutes);
+    app.use('/address', DeliveryAddressRoutes);
 }

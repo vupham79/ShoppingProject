@@ -30,16 +30,17 @@ module.exports = (sequelize, DataTypes) => {
     },
     email: {
       type: DataTypes.STRING,
+      unique: {
+        arg: true,
+        msg: 'Email duplicated'
+      },
       validate: {
         isEmail: true,
       }
     },
     registered: {
       type: DataTypes.BOOLEAN,
-      validate: {
-        notNull: true,
-        notEmpty: true,
-      }
+      defaultValue: false
     },
   }, {
     timestamp: true,

@@ -11,6 +11,6 @@ router.post('/:order_id', OrderItemController.createOrderItems);
 router.patch('/:order_id', OrderController.updateOrder);
 router.delete('/:order_id', OrderController.deleteOrder);
 router.delete('/:order_id/:item_id', OrderItemController.deleteOrderItem);
-router.patch('/:order_id/:item_id', OrderItemController.updateOrdertem);
+router.patch('/:order_id/:item_id', OrderItemController.updateOrderItem);
 
 export default router;

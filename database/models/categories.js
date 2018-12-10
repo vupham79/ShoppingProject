@@ -9,12 +9,14 @@ module.exports = (sequelize, DataTypes) => {
     },
     name: {
       type: DataTypes.STRING(100),
-      unique: true,
+      unique: {
+        arg: true,
+        msg: "Category name duplicated",
       // validate: {
       //   notNull: true,
       //   notEmpty: true,
       // }
-    },
+    }},
     description: {
       type: DataTypes.STRING,
       defaultValue: 'No description',

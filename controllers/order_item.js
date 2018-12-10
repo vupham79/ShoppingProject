@@ -2,20 +2,34 @@ import model from './../database/models';
 
 export async function getAllOrderItems(req, res) {
     try {
-        const items = await model.order_items.findAll({
-            attributes: ['id', 'order_id', 'product_id', 'quantity'],
-            include: [{
-                model: model.products,
-                as: 'item_product'
-            }],
+        const order = await model.orders.findOne({
             where: {
-                order_id: req.params.order_id
+                id: req.params.order_id,
             }
-        })
-        if (items) {
-            return res.status(200).json(items);
+        });
+        if (order) {
+            const items = await model.order_items.findAll({
+                attributes: ['id', 'order_id', 'product_id', 'quantity'],
+                include: [
+                    {
+                        model: model.products,
+                        as: 'product'
+                    },
+                    {
+                        model: model.orders,
+                        as: 'order'
+                    }
+                ],
+                where: {
+                    order_id: req.params.order_id
+                }
+            })
+            if (items.length > 0) {
+                return res.status(200).json(items);
+            }
+            return res.status(200).json({ order });
         } else {
-            return res.status(400).json({ message: 'No items existing!' });
+            return res.status(400).json({ message: `Order ${req.params.order_id} not existing!` });
         }
     } catch (error) {
         return res.status(400).json({ message: 'Error', error: error.message });
@@ -24,46 +38,70 @@ export async function getAllOrderItems(req, res) {
 
 export async function createOrderItems(req, res) {
     try {
-        const order = await model.order_items.bulkCreate(req.items.map(item => {
-
-        }),
-            {
-                where: {
-                    id: req.params.id
-                }
-            }
-        );
+        const order = await model.orders.findOne({
+            where: {
+                id: req.params.order_id
+            },
+        })
         if (order) {
-            return res.json(order);
+            const item = await model.order_items.create(
+                {
+                    order_id: req.params.order_id,
+                    product_id: req.body.product_id,
+                    quantity: req.body.quantity
+                },
+            );
+            if (item) {
+                // I want to update total field of the order
+                // const product = await model.products.findOne(
+                //     {
+                //         attributes: ['price'],
+                //         where: {
+                //             id: req.body.product_id,
+                //         }
+                //     }
+                // );
+                // const totalPrice = product.price * req.body.quantity;
+                // await model.orders.update(
+                //     {
+                //         total: 12,
+                //     },
+                //     {
+                //         where: {
+                //             id: order.id,
+                //         },
+                //         fields: ["total"],
+                //     }
+                // )
+                return res.json(item);
+            } else {
+                return res.json({ message: `Create item ${req.body.id} failed!` });
+            }
         } else {
-            return res.json({ message: `Create order ${req.body.id} failed!` });
+            return res.json({ message: `Order ${req.params.order_id} not existing!` });
         }
     } catch (error) {
         return res.status(400).json({ message: 'Error', error: error.message });
     }
 }
 
-export async function updateOrdertem(req, res) {
+export async function updateOrderItem(req, res) {
     try {
-        const order = await model.order_items.update({
-            customer_id: req.body.customer_id,
-            registered: req.body.registered,
-            delivery_add_id: req.body.delivery_add_id,
-            payment_type: req.body.payment_type,
-            date: req.body.date,
-            status: req.body.status,
-            session: req.body.session,
-        },
+        const order = await model.order_items.update(
+            {
+                quantity: req.body.quantity,
+            },
             {
                 where: {
-                    id: req.params.id
+                    id: req.body.product_id,
+                    order_id: req.params.order_id,
                 }
             }
         );
         if (order) {
             return res.json(order);
         } else {
-            return res.json({ message: `Create order ${req.body.id} failed!` });
+            return res.json({ message: `Update item ${req.body.id} failed!` });
         }
     } catch (error) {
         return res.json({ message: 'Error', error: error.message });
@@ -80,7 +118,7 @@ export async function deleteOrderItem(req, res) {
         if (order) {
             return res.json(order);
         } else {
-            return res.json({ message: `Delete order ${req.params.id} failed!` })
+            return res.json({ message: `Delete item ${req.params.id} failed!` })
         }
     } catch (error) {
         return res.json({ message: 'Error', error: error.message });

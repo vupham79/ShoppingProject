@@ -3,7 +3,7 @@ import model from './../database/models';
 export async function getAllOrders(req, res) {
     try {
         const orders = await model.orders.findAll({
-            attributes: ['id', 'customer_id', 'registered', 'delivery_add_id', 'payment_type', 'date', 'status', 'session'],
+            attributes: ['id', 'customer_id', 'registered', 'delivery_add_id', 'payment_type', 'date', 'status', 'session', 'total'],
         })
         if (orders) {
             return res.status(200).json(orders);

@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       primaryKey: true,
       type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDv1
+      defaultValue: DataTypes.UUIDV1
     },
     order_id: {
       type: DataTypes.UUID,
@@ -24,11 +24,11 @@ module.exports = (sequelize, DataTypes) => {
   order_items.associate = function(models) {
     order_items.belongsTo(models.orders, {
       foreignKey: 'order_id',
-      as: 'item_order'
+      as: 'order'
     });
     order_items.belongsTo(models.products, {
       foreignKey: 'product_id',
-      as: 'item_product'
+      as: 'product'
     });
   };
   return order_items;

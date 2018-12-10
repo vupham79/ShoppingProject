@@ -88,6 +88,9 @@ export async function updateCustomer(req, res) {
 
 export async function deleteCustomer(req, res) {
     try {
+        let t1 = model.sequelize.transaction();
+        await model.logins.destroy({ where: { id: req.params.id } }, { transaction: t1 });
+        
         const customer = await model.customers.destroy({
             where: {
                 id: req.params.id,
@@ -96,7 +99,7 @@ export async function deleteCustomer(req, res) {
         if (customer) {
             return res.status(200).json(customer);
         } else {
-            return res.status(400).json({ message: 'Delete customer failed!' });
+            return res.status(400).json({ message: `Delete customer ${req.params.id} failed!` });
         }
     } catch (error) {
         return res.status(400).json({ message: 'Error', error: error.message });

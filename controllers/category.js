@@ -1,5 +1,4 @@
 import model from './../database/models';
-import db from './../database/models';
 
 export async function getAllCategories(req, res) {
     try {
@@ -80,7 +79,7 @@ export async function updateCategory(req, res) {
 
 export async function deleteCategory(req, res) {
     try {
-        let t1 = db.sequelize.transaction();
+        let t1 = model.sequelize.transaction();
         await model.products.destroy({ where: { cat_id: req.params.id } }, { transaction: t1 });
         await model.categories.destroy({ where: { id: req.params.id } }, { transaction: t1});
         return res.status(200).json({ message: `Delete category ${req.params.id} successfully!`});
