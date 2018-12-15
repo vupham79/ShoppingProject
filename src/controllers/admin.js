@@ -1,8 +1,8 @@
-import model from "./../database/models";
+import { Admins, Order_Items } from "./../database/models";
 
 export async function getAllAdmins(req, res) {
   try {
-    const admins = await model.admins.findAll({
+    const admins = await Admins.findAll({
       attributes: ["id", "username"]
     });
     if (admins) {
@@ -17,14 +17,11 @@ export async function getAllAdmins(req, res) {
 
 export async function createOrderItems(req, res) {
   try {
-    const order = await model.order_items.bulkCreate(
-      req.items.map(item => {}),
-      {
-        where: {
-          id: req.params.id
-        }
+    const order = await Order_Items.bulkCreate(req.items.map(item => {}), {
+      where: {
+        id: req.params.id
       }
-    );
+    });
     if (order) {
       return res.json(order);
     } else {
@@ -37,7 +34,7 @@ export async function createOrderItems(req, res) {
 
 export async function updateOrdertem(req, res) {
   try {
-    const order = await model.order_items.update(
+    const order = await Order_Items.update(
       {
         customer_id: req.body.customer_id,
         registered: req.body.registered,
@@ -65,7 +62,7 @@ export async function updateOrdertem(req, res) {
 
 export async function deleteOrderItem(req, res) {
   try {
-    const order = await model.orders.destroy({
+    const order = await Orders.destroy({
       where: {
         id: req.params.id
       }

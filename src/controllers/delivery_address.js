@@ -1,8 +1,8 @@
-import model from "./../database/models";
+import { Delivery_Addresses } from "./../database/models";
 
 export async function getAllDeliveryAddresses(req, res) {
   try {
-    const deliveryAddresses = await model.delivery_addresses.findAll({
+    const deliveryAddresses = await Delivery_Addresses.findAll({
       attributes: [
         "id",
         "forename",
@@ -27,7 +27,7 @@ export async function getAllDeliveryAddresses(req, res) {
 
 export async function createDeliveryAddress(req, res) {
   try {
-    const deliveryAddress = await model.delivery_addresses.create({
+    const deliveryAddress = await Delivery_Addresses.create({
       forename: req.body.forename,
       surname: req.body.surname,
       add1: req.body.add1,
@@ -51,7 +51,7 @@ export async function createDeliveryAddress(req, res) {
 
 export async function updateDeliveryAddress(req, res) {
   try {
-    const deliveryAddress = await model.delivery_addresses.update(
+    const deliveryAddress = await Delivery_Addresses.update(
       {
         forename: req.body.forename,
         surname: req.body.surname,
@@ -82,7 +82,7 @@ export async function updateDeliveryAddress(req, res) {
 
 export async function deleteDeliveryAddress(req, res) {
   try {
-    const deliveryAddress = await model.delivery_addresses.destroy({
+    const deliveryAddress = await Delivery_Addresses.destroy({
       where: {
         id: req.params.id
       }

@@ -1,8 +1,8 @@
-import model from "./../database/models";
+import { Categories } from "./../database/models";
 
 export async function getAllCategories(req, res) {
   try {
-    const categories = await model.categories.findAll({
+    const categories = await Categories.findAll({
       attributes: ["id", "name", "description", "image"]
     });
     if (categories) {
@@ -17,7 +17,7 @@ export async function getAllCategories(req, res) {
 
 export async function getCategory(req, res) {
   try {
-    const category = await model.categories.findOne({
+    const category = await Categories.findOne({
       attributes: ["id", "name", "description", "image"],
       where: {
         id: req.params.id
@@ -37,7 +37,7 @@ export async function getCategory(req, res) {
 
 export async function createCategory(req, res) {
   try {
-    const category = await model.categories.create({
+    const category = await Categories.create({
       name: req.body.name,
       description: req.body.description,
       image: req.body.image
@@ -56,7 +56,7 @@ export async function createCategory(req, res) {
 
 export async function updateCategory(req, res) {
   try {
-    const category = await model.categories.update(
+    const category = await Categories.update(
       {
         name: req.body.name,
         description: req.body.description,
@@ -83,11 +83,11 @@ export async function updateCategory(req, res) {
 export async function deleteCategory(req, res) {
   try {
     let t1 = model.sequelize.transaction();
-    await model.products.destroy(
+    await Products.destroy(
       { where: { cat_id: req.params.id } },
       { transaction: t1 }
     );
-    await model.categories.destroy(
+    await Categories.destroy(
       { where: { id: req.params.id } },
       { transaction: t1 }
     );

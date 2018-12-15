@@ -1,8 +1,8 @@
-import model from "./../database/models";
+import { Logins } from "./../database/models";
 
 export async function checkLogin(req, res) {
   try {
-    const check = await model.logins.findOne({
+    const check = await Logins.findOne({
       where: {
         username: req.body.username,
         password: req.body.password

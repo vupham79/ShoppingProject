@@ -1,8 +1,8 @@
-import model from "./../database/models";
+import { Orders } from "./../database/models";
 
 export async function getAllOrders(req, res) {
   try {
-    const orders = await model.orders.findAll({
+    const orders = await Orders.findAll({
       attributes: [
         "id",
         "customer_id",
@@ -27,7 +27,7 @@ export async function getAllOrders(req, res) {
 
 export async function createOrder(req, res) {
   try {
-    const order = await model.orders.create({
+    const order = await Orders.create({
       customer_id: req.body.customer_id,
       registered: req.body.registered,
       delivery_add_id: req.body.delivery_add_id,
@@ -50,7 +50,7 @@ export async function createOrder(req, res) {
 
 export async function updateOrder(req, res) {
   try {
-    const order = await model.orders.update(
+    const order = await Orders.update(
       {
         customer_id: req.body.customer_id,
         registered: req.body.registered,
@@ -80,7 +80,7 @@ export async function updateOrder(req, res) {
 
 export async function deleteOrder(req, res) {
   try {
-    const order = await model.orders.destroy({
+    const order = await Orders.destroy({
       where: {
         id: req.params.id
       }

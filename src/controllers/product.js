@@ -1,8 +1,8 @@
-import model from "./../database/models";
+import { Products } from "./../database/models";
 
 export async function getAllProducts(req, res) {
   try {
-    const products = await model.products.findAll({
+    const products = await Products.findAll({
       attributes: ["id", "cat_id", "name", "description", "image", "price"]
     });
     if (products) {
@@ -17,7 +17,7 @@ export async function getAllProducts(req, res) {
 
 export async function getProduct(req, res) {
   try {
-    const product = await model.products.findOne({
+    const product = await Products.findOne({
       attributes: ["id", "name", "description", "image", "price"],
       where: { id: req.params.id },
       include: {
@@ -40,7 +40,7 @@ export async function getProduct(req, res) {
 
 export async function createProduct(req, res) {
   try {
-    const product = await model.products.create({
+    const product = await Products.create({
       cat_id: req.body.cat_id,
       name: req.body.name,
       description: req.body.description,
@@ -61,7 +61,7 @@ export async function createProduct(req, res) {
 
 export async function updateProduct(req, res) {
   try {
-    const product = await model.products.update(
+    const product = await Products.update(
       {
         cat_id: req.body.cat_id,
         name: req.body.name,
@@ -89,7 +89,7 @@ export async function updateProduct(req, res) {
 
 export async function deleteProduct(req, res) {
   try {
-    const product = await model.products.destroy({
+    const product = await Products.destroy({
       where: {
         id: req.params.id
       }

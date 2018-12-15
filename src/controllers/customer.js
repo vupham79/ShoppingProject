@@ -1,8 +1,9 @@
-import model from "./../database/models";
+import { Customers } from "../database/models";
 
 export async function getAllCustomers(req, res) {
   try {
-    const customers = await model.customers.findAll();
+    console.log(Customers);
+    const customers = await Customers.findAll();
     if (customers) {
       return res.status(200).json(customers);
     } else {
@@ -15,7 +16,7 @@ export async function getAllCustomers(req, res) {
 
 export async function getCustomer(req, res) {
   try {
-    const customer = await model.customers.findOne({
+    const customer = await Customers.findOne({
       attributes: [
         "id",
         "forename",
@@ -44,7 +45,7 @@ export async function getCustomer(req, res) {
 
 export async function createCustomer(req, res) {
   try {
-    const customer = await model.customers.create({
+    const customer = await Customers.create({
       forename: req.body.forename,
       surname: req.body.surname,
       add1: req.body.add1,
@@ -67,7 +68,7 @@ export async function createCustomer(req, res) {
 
 export async function updateCustomer(req, res) {
   try {
-    const customer = await model.customers.update(
+    const customer = await Customers.update(
       {
         forename: req.body.forename,
         surname: req.body.surname,
@@ -98,12 +99,9 @@ export async function updateCustomer(req, res) {
 export async function deleteCustomer(req, res) {
   try {
     let t1 = model.sequelize.transaction();
-    await model.logins.destroy(
-      { where: { id: req.params.id } },
-      { transaction: t1 }
-    );
+    await Logins.destroy({ where: { id: req.params.id } }, { transaction: t1 });
 
-    const customer = await model.customers.destroy({
+    const customer = await Customers.destroy({
       where: {
         id: req.params.id
       }
