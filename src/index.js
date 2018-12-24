@@ -19,7 +19,9 @@ app.use("/order", OrderRoutes);
 app.use("/category", CategoryRoutes);
 app.use("/product", ProductRoutes);
 app.use("/address", DeliveryAddressRoutes);
-
+app.get("/", (req, res) => {
+  return res.send("Hello World");
+});
 app.listen(PORT, () => {
-  console.log("   Server is running on port 8000 👍👍👍👍");
+  console.log(`     Server is running on port ${PORT} 👍👍👍👍`);
 });

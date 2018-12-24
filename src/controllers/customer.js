@@ -2,7 +2,6 @@ import { Customers } from "../database/models";
 
 export async function getAllCustomers(req, res) {
   try {
-    console.log(Customers);
     const customers = await Customers.findAll();
     if (customers) {
       return res.status(200).json(customers);
